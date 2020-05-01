@@ -38,5 +38,5 @@ then simply run Julia
 julia pizza_bot.jl
 ```
 
-#License
+# License
 See [LICENSE](LICENSE)
