@@ -1,0 +1,35 @@
+version: '2'
+services:
+  server:
+    build: .
+    image: pizza-julia
+    environment:
+    - DATABASE_URL="pgsql://bot:pizza@database:5432/pizza_bot?sslmode=prefer"
+    depends_on:
+      - db
+    links:
+      - "db:database"
+    restart: unless-stopped
+    networks:
+      - pizza_net
+  db:
+    image: postgres
+    expose:
+      - "5432"
+    ports:
+     - "5432:5432"
+    environment:
+    - POSTGRES_PASSWORD=pizza
+    - POSTGRES_USER=bot
+    - POSTGRES_DB=pizza_bot
+    restart: on-failure
+    networks:
+    - pizza_net
+
+networks:
+  pizza_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"
+        - subnet: "2001:3984:3989::/64"
