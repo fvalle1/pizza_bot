@@ -22,7 +22,7 @@ function send_welcome(contact)
         lc = "it"
     end
     if lc=="it"
-        params = Dict("chat_id"=>id, "text"=>string("Benvenuto ", name, "! \nQuando sei pronto facciamo clicca /pizza!"))
+        params = Dict("chat_id"=>id, "text"=>string("Benvenuto ", name, "! \nQuando sei pronto clicca /pizza!"))
     else
         params = Dict("chat_id"=>id, "text"=>string("Welcome ", name, " \nClick /pizza to begin.."))
     end
