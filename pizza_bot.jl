@@ -7,7 +7,7 @@ include("psql_backend.jl")
 using Main.Backend
 
 url = "https://api.telegram.org/"
-key={YOUR_KEY_HERE}
+key=ENV["TELEGRAM_KEY"]
 
 function send_message(params)
     req = HTTP.request("POST",string(url,key,"/sendMessage"),["Content-Type" => "application/json"],JSON.json(params))
