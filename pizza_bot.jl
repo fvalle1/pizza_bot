@@ -62,8 +62,8 @@ function read_people(message, state)
     program = get_key(id, "program")
     try
         people = parse(Int, people)
-        if people < = 0
-            throw("")
+        if people <= 0
+            throw("too few people")
         end
         send_recipe(message, people)
         return state + 1
