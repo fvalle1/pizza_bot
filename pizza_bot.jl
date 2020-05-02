@@ -81,10 +81,10 @@ function send_recipe(message, people)
 end
 
 function send_pizza(id, people)
-    pizza_recipe = [1 100 500]
+    pizza_recipe = [1000 100 500]
     recipe = pizza_recipe / 4. * people
     params = Dict("chat_id"=>id, "text"=>string("Ecco le dosi per $(people) persone:\n
-    $(@sprintf("%.1f", recipe[1])) Kg di farina\n
+    $(@sprintf("%.1f", recipe[1]/1000)) Kg di farina\n
     $(@sprintf("%.1f", recipe[2])) ml di olio\n
     $(@sprintf("%.1f", recipe[3])) ml di acqua\n
     lievito q.b.\n
@@ -96,7 +96,7 @@ function send_focaccia(id, people)
     focaccia_recipe = [660 50 440]
     recipe = focaccia_recipe / 4. * people
 
-    number, rectangular, circular = get_teglia(sum(recipe))
+    number, rectangular_str, circular_str, rectangular, circular = get_teglia(sum(recipe))
 
 
     params = Dict("chat_id"=>id, "text"=>string("Ecco le dosi per $(people) persone:\n
@@ -105,8 +105,8 @@ function send_focaccia(id, people)
     $(@sprintf("%.1f", recipe[3])) ml di acqua\n
     lievito q.b.\n
     sale q.b.\n\n
-    Puoi usare $(circular) di diametro: $(@sprintf("%.1f", circular))cm\n
-    oppure $(rectangular) $(@sprintf("%.1f", rectangular[1])) cm X $(@sprintf("%.1f", rectangular[2])) cm"))
+    Puoi usare $(circular_str) di diametro: $(@sprintf("%.1f", circular))cm\n
+    oppure $(rectangular_str) $(@sprintf("%.1f", rectangular[1])) cm X $(@sprintf("%.1f", rectangular[2])) cm"))
     send_message(params)
 end
 
@@ -126,14 +126,14 @@ function get_teglia(impasto)
     circular = sqrt(area/pi)*2
 
     if number > 1
-        rectangular_str = "$(@sprintf("%.1f", number)) teglie rettangolari"
-        circular_str = "$(@sprintf("%.1f", number)) teglie circolari"
+        rectangular_str = "$(@sprintf("%d", number)) teglie rettangolari"
+        circular_str = "$(@sprintf("%d", number)) teglie circolari"
     else
         rectangular_str = "una teglia rettangolare"
         circular_str = "una teglia circolare"
     end
 
-    return (number, rectangular_str, circular_str)
+    return (number, rectangular_str, circular_str, rectangular, circular)
 end
 
 function send_bye(contact)
