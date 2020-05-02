@@ -104,7 +104,7 @@ function send_focaccia(id, people)
 
 
     params = Dict("chat_id"=>id, "text"=>string("Ecco le dosi per $(people) persone:\n
-    $(@sprintf("%.1f", recipe[1]/1000)) Kg di farina di Manitoba (W=280)\n
+    $(@sprintf("%.3f", recipe[1]/1000)) Kg di farina di Manitoba (W=280)\n
     $(@sprintf("%.1f", recipe[2])) g di olio\n
     $(@sprintf("%.1f", recipe[3])) ml di acqua\n
     lievito q.b.\n
@@ -116,13 +116,11 @@ end
 
 function get_teglia(impasto)
     area = impasto / 0.60
-    rapp = 35 / 28
-    area_max = 35 * 28
-    number = 2 * Int(round(floor(area/area_max)))
-    if number < 1
-        number = 1
-    end
-    area = area / number
+    rapp = 42 / 35
+    area_max = 42 * 35
+    number = Int(round(floor(area/area_max) + 1))
+
+    area = area / number # area singola teglia
 
     h = sqrt(area / rapp)
     b = area / h
