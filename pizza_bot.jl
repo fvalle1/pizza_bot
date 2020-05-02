@@ -7,7 +7,7 @@ include("psql_backend.jl")
 using Main.Backend
 
 url = "https://api.telegram.org/"
-key={YOUR_KEY_HERE}
+key=ENV["TELEGRAM_KEY"]
 
 function send_message(params)
     req = HTTP.request("POST",string(url,key,"/sendMessage"),["Content-Type" => "application/json"],JSON.json(params))
@@ -22,9 +22,13 @@ function send_welcome(contact)
         lc = "it"
     end
     if lc=="it"
-        params = Dict("chat_id"=>id, "text"=>string("Benvenuto ", name, "! \nQuando sei pronto clicca /cuciniamo!"))
+        params = Dict("chat_id"=>id, "text"=>string("Ciao ", name, "! Sono Pizzabot\n
+        Ti aiuterò a preparare pizze e focacce favolose!
+        Digita /cuciniamo per iniziare e poi segui le istruzioni.
+
+        Buon lavoro e buon appetito!!"))
     else
-        params = Dict("chat_id"=>id, "text"=>string("Welcome ", name, " \nClick /pizza to begin.."))
+        params = Dict("chat_id"=>id, "text"=>string("Welcome ", name, " \nClick /cuciniamo to begin.."))
     end
     send_message(params)
 end
