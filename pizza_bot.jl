@@ -22,7 +22,7 @@ function send_welcome(contact)
         lc = "it"
     end
     if lc=="it"
-        params = Dict("chat_id"=>id, "text"=>string("Benvenuto ", name, "! \nQuando sei pronto clicca /pizza!"))
+        params = Dict("chat_id"=>id, "text"=>string("Benvenuto ", name, "! \nQuando sei pronto clicca /cuciniamo!"))
     else
         params = Dict("chat_id"=>id, "text"=>string("Welcome ", name, " \nClick /pizza to begin.."))
     end
@@ -33,13 +33,18 @@ function ask_program(contact)
     id = contact["id"]
     buttons = [Dict("text"=>"pizza"), Dict("text"=>"focaccia")]
     reply_markup = Dict("keyboard"=>[buttons], "one_time_keyboard"=>true)
-    params = Dict("chat_id"=>id, "text"=>"Cosa vuoi fare?", "reply_markup"=>reply_markup)
+    params = Dict("chat_id"=>id, "text"=>"Cosa vuoi cucinare? (pizza o focaccia)", "reply_markup"=>reply_markup)
     send_message(params)
 end
 
 function ask_people(message)
     id = message["from"]["id"]
     program = message["text"]
+
+    if !(program  in ["pizza" "focaccia"])
+        program = "pizza"
+    end
+
     params = Dict("chat_id"=>id, "text"=>string("Bene allora ti darò istruzioni per fare la ", program))
     send_message(params)
     params = Dict("chat_id"=>id, "text"=>string("per quante persone vuoi fare la ", program, "?"))
@@ -75,11 +80,11 @@ end
 function send_pizza(id, people)
     pizza_recipe = [1 100 500]
     recipe = pizza_recipe / 4. * people
-    params = Dict("chat_id"=>id, "text"=>string("Ecco la ricetta per $(people) persone:\n
+    params = Dict("chat_id"=>id, "text"=>string("Ecco le dosi per $(people) persone:\n
     $(@sprintf("%.1f", recipe[1])) Kg di farina\n
     $(@sprintf("%.1f", recipe[2])) ml di olio\n
     $(@sprintf("%.1f", recipe[3])) ml di acqua\n
-    lievito q.b\n
+    lievito q.b.\n
     sale q.b.\n"))
     send_message(params)
 end
@@ -90,11 +95,11 @@ function send_focaccia(id, people)
 
     rectangular, circular = get_teglia(sum(recipe))
 
-    params = Dict("chat_id"=>id, "text"=>string("Ecco la ricetta per $(people) persone:\n
+    params = Dict("chat_id"=>id, "text"=>string("Ecco le dosi per $(people) persone:\n
     $(@sprintf("%.1f", recipe[1])) Kg di farina di Manitoba (W=280)\n
     $(@sprintf("%.1f", recipe[2])) g di olio\n
     $(@sprintf("%.1f", recipe[3])) ml di acqua\n
-    lievito q.b\n
+    lievito q.b.\n
     sale q.b.\n\n
     Puoi usare una teglia circolare di diametro: $(@sprintf("%.1f", circular))cm\n
     oppure una teglia rettangolare $(@sprintf("%.1f", rectangular[1])) cm X $(@sprintf("%.1f", rectangular[2])) cm"))
@@ -136,7 +141,7 @@ function parse_message(message)
     if (state == 0) | (message["message"]["text"]=="/start")
         send_welcome(message["message"]["from"])
         set_state(id, 1)
-    elseif (state == 1) | (message["message"]["text"]=="/pizza")
+    elseif (state == 1) | (message["message"]["text"]=="/cuciniamo")
         ask_program(message["message"]["from"])
         set_state(id, 2)
     elseif state == 2
