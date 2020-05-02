@@ -7,7 +7,7 @@ RUN julia -e 'using Pkg; Pkg.add("Tables")'
 
 
 COPY pizza_bot.jl /home/
-COPY psql_helper.jl /home/
+COPY psql_backend.jl /home/
 WORKDIR /home/
 
 ENTRYPOINT julia pizza_bot.jl
