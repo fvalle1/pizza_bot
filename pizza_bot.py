@@ -99,7 +99,7 @@ def send_focaccia(id, people):
     recipe = [el / 4. * people for el in focaccia_recipe]
     number, rectangular_str, circular_str, rectangular, circular = get_teglia(sum(recipe))
 
-    params = {"chat_id":id, "text":f"""Ecco le dosi per $(people) persone:\n
+    params = {"chat_id":id, "text":f"""Ecco le dosi per {people} persone:\n
     {recipe[0]/1000} Kg di farina di Manitoba (W=280)\n
     {recipe[1]} g di olio\n
     {recipe[2]} ml di acqua\n
