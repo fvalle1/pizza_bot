@@ -1,0 +1,9 @@
+bucket:
+  strip: 1
+packages:
+  - name: pizzabot
+    actions:
+      - name: getUpdate
+        runtime: python:3ai
+        limits:
+          timeout: 60000
