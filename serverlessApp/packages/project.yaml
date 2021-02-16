@@ -2,6 +2,7 @@ bucket:
   strip: 1
 packages:
   - name: pizzabot
+    web: false
     actions:
       - name: getUpdate
         runtime: python:3ai

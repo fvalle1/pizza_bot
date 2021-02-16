@@ -9,7 +9,7 @@ hdl = logging.StreamHandler()
 log.addHandler(hdl)
 log.setLevel(logging.DEBUG)
 
-from white_backend import *
+from nimbella_backend import *
 
 url = "https://api.telegram.org/"
 key = os.environ["TELEGRAM_KEY"]
