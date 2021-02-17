@@ -1,9 +1,8 @@
-import json
 from pizza_bot import parse_message
+import json
 
 def main(params):
 	parse_message(params)
-	return {"body":
-		{"message": json.dumps(params),
-		"status": 400}
+	return {"body": ["OK", params],
+		"headers":{"Content-Type":"application/json"}
 		}
