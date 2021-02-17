@@ -5,6 +5,6 @@ packages:
     web: false
     actions:
       - name: getUpdate
-        runtime: python:3ai
+        runtime: python:3
         limits:
           timeout: 60000
