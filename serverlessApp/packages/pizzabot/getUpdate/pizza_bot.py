@@ -12,7 +12,7 @@ log.setLevel(logging.DEBUG)
 from nimbella_backend import *
 
 url = "https://api.telegram.org/"
-key = os.environ["TELEGRAM_KEY"]
+key = "bot989983526:AAE4f1KqkdIBgftNUMeXLy5ODSnNx87uWqE"
 
 def send_message(params):
     req = requests.post(url+key+"/sendMessage", data = params)
@@ -39,16 +39,16 @@ def send_welcome(contact):
 
 def ask_program(contact):
     id = contact["id"]
-    buttons = [[{"text":"pizza"}, {"text":"focaccia"}]]
+    buttons = [[{"text": "pizza"}], [{"text": "focaccia"}, {"text": "farinata"}]]
     reply_markup = {"keyboard":buttons, "one_time_keyboard":True}
-    params = {"chat_id":id, "text":"Cosa vuoi cucinare? (pizza o focaccia)", "reply_markup":json.dumps(reply_markup)}
+    params = {"chat_id":id, "text":"Cosa vuoi cucinare? (pizza, focaccia o farinata)", "reply_markup":json.dumps(reply_markup)}
     send_message(params)
 
 def ask_people(message):
     id = message["from"]["id"]
     program = message["text"]
 
-    if program not in ["pizza", "focaccia"]:
+    if program not in ["pizza", "focaccia", "farinata"]:
         program = "pizza"
 
     params = {"chat_id":id, "text":"Bene allora ti darò istruzioni per fare la "+program}
@@ -82,6 +82,8 @@ def send_recipe(message, people):
         send_pizza(id, people)
     elif "focaccia" in program:
         send_focaccia(id, people)
+    elif "farinata" in program:
+        send_farinata(id, people)
     
 def send_pizza(id, people):
     pizza_recipe = [1000, 100, 500]
@@ -130,6 +132,16 @@ def get_teglia(impasto):
         circular_str = "una teglia circolare"
 
     return (number, rectangular_str, circular_str, rectangular, circular)
+
+def send_farinata(id, people):
+    pizza_recipe = [300, 900, 50]
+    recipe = [el / 8. * people for el in pizza_recipe]
+    params = {"chat_id": id, "text": f"""Ecco le dosi per {people} persone:\n
+    {recipe[0]} g di farina di ceci\n
+    {recipe[1]} ml di acqua\n
+    {recipe[2]} g di olio\n
+    """}
+    send_message(params)
 
 def send_bye(contact):
     id = contact["id"]

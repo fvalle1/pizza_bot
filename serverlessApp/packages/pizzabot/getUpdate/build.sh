@@ -2,7 +2,7 @@
 
 set -e
 
-virtualenv venv
+python3 -m virtualenv venv
 source venv/bin/activate
-pip install --no-cache-dir requests
+python3 -m pip install --no-cache-dir requests
 deactivate
