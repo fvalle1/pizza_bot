@@ -2,7 +2,7 @@ version: '2'
 services:
   server:
     build: .
-    image: pizza-julia
+    image: pizza-bot
     environment:
     - DATABASE_URL="pgsql://bot:pizza@database:5432/pizza_bot?sslmode=prefer"
     depends_on:

@@ -1,13 +1,11 @@
-FROM julia
+FROM python:alpine3.18
 
-RUN julia -e 'using Pkg; Pkg.add("HTTP")'
-RUN julia -e 'using Pkg; Pkg.add("JSON")'
-RUN julia -e 'using Pkg; Pkg.add("LibPQ")'
-RUN julia -e 'using Pkg; Pkg.add("Tables")'
+COPY requirements.txt /home/requirements.txt
+RUN python3 -m pip install --no-cache-dir -U -r /home/requirements.txt
 
 
-COPY pizza_bot.jl /home/
-COPY psql_backend.jl /home/
+COPY pizza_bot.py /home/
+COPY white_backend.py /home/
 WORKDIR /home/
 
-ENTRYPOINT julia pizza_bot.jl
+ENTRYPOINT python3 pizza_bot.py
